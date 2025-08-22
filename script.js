@@ -55,3 +55,43 @@ portfolioLists.forEach((list, idx) => {
 setTimeout(() => {
     sections[4].classList.remove('active');
 }, 1500);
+
+
+function openPopup(e) {
+    e.preventDefault(); // stop default link
+    document.getElementById("termsPopup").style.display = "flex";
+}
+
+function acceptTerms() {
+    document.getElementById("termsPopup").style.display = "none";
+    // Redirect to your project preview link
+    window.open("https://your-preview-link.com", "_blank");
+}
+
+function declineTerms() {
+    alert("You must accept the terms to preview this system.");
+    document.getElementById("termsPopup").style.display = "none";
+}
+
+const form = document.getElementById("contact-form");
+const status = document.getElementById("form-status");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      status.textContent = "✅ Thanks! Your message has been sent.";
+      form.reset();
+    } else {
+      status.textContent = "❌ Oops! Something went wrong.";
+    }
+  } catch (error) {
+    status.textContent = "❌ Network error. Try again later.";
+  }
+});
